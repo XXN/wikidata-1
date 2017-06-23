@@ -46,6 +46,8 @@ code = mwparserfromhell.parse(text)
 for temp in code.filter_templates():
     if temp.name.startswith('Wikidata:Requests for permissions/Bot/') and not '/Header/' in temp.name:
         subpage = pywikibot.Page(site, unicode(temp.name))
+        if subpage.isRedirectPage():
+            subpage = subpage.getRedirectTarget()
         if '{{approved}}' in subpage.get().lower():
             rm_these.append(subpage.title())
 print rm_these
